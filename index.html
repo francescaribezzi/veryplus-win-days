@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Very Win Days — VeryPlus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-dark: #062010;
+    --green-mid: #0f5c2a;
+    --green-bright: #1a7a3c;
+    --green-light: #22c55e;
+    --gold: #f59e0b;
+    --gold-light: #fbbf24;
+    --gold-pale: #fef08a;
+    --white: #ffffff;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+
+  body {
+    background: #030f07;
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    padding: 48px 24px 32px;
+    position: relative;
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--white);
+    color: var(--green-mid);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    padding: 6px 24px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+  .header h1 span { color: var(--gold-light); }
+  .header p {
+    color: rgba(255,255,255,0.55);
+    font-size: 15px;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+  }
+  .header-line {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 20px auto 0;
+    opacity: 0.6;
+  }
+
+  /* ── Screens layout ── */
+  .screens-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 24px 24px 64px;
+    flex-wrap: wrap;
+  }
+
+  .screen-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    opacity: 0;
+    transform: translateY(32px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .screen-block:nth-child(1) { animation-delay: 0.1s; }
+  .screen-block:nth-child(2) { animation-delay: 0.3s; }
+  .screen-block:nth-child(3) { animation-delay: 0.5s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .screen-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .screen-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    margin-top: -12px;
+  }
+
+  /* ── Phone frame ── */
+  .phone {
+    width: 280px;
+    background: #0a4020;
+    border-radius: 36px;
+    overflow: hidden;
+    border: 5px solid #151515;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+    position: relative;
+  }
+  .phone-statusbar {
+    background: #052e14;
+    padding: 8px 16px 4px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+  }
+  .phone-topbadge {
+    text-align: center;
+    padding: 10px 16px 4px;
+  }
+  .phone-topbadge span {
+    display: inline-block;
+    background: #fff;
+    border-radius: 999px;
+    padding: 3px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green-mid);
+    letter-spacing: 2px;
+    font-family: var(--font-display);
+  }
+
+  /* ── Screen 1 ── */
+  .s1-headline {
+    text-align: center;
+    padding: 6px 16px 4px;
+  }
+  .s1-headline .sub { font-size: 12px; color: rgba(255,255,255,0.8); }
+  .s1-headline .main { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: #fff; line-height: 1.1; }
+  .s1-headline .prize { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+  .s1-grid-wrap {
+    padding: 8px 12px;
+    position: relative;
+  }
+  .s1-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .tile {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.06);
+    font-family: var(--font-display);
+  }
+  .tile.past { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.45); text-decoration: line-through; }
+  .tile.won { background: #1d9e75; color: #fff; }
+  .tile.today {
+    background: #e85d04;
+    color: #fff;
+    outline: 2px solid var(--gold-light);
+    outline-offset: 1px;
+    animation: pulseTile 1.8s ease-in-out infinite;
+  }
+  @keyframes pulseTile {
+    0%,100% { outline-offset: 1px; }
+    50% { outline-offset: 3px; }
+  }
+  .tile.locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.2); }
+
+  .s1-badge {
+    position: absolute;
+    right: 6px;
+    top: -4px;
+    width: 52px;
+    height: 52px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #0f5c2a;
+    box-shadow: 0 0 12px rgba(245,158,11,0.5);
+  }
+  .s1-badge .n { font-size: 18px; font-weight: 700; color: #fff; line-height: 1; font-family: var(--font-display); }
+  .s1-badge .t { font-size: 7px; color: #fff; font-weight: 600; text-align: center; line-height: 1.2; font-family: var(--font-display); }
+
+  .s1-legend {
+    display: flex;
+    gap: 10px;
+    padding: 6px 14px;
+    justify-content: center;
+  }
+  .leg { display: flex; align-items: center; gap: 4px; }
+  .leg-dot { width: 9px; height: 9px; border-radius: 2px; }
+  .leg span { font-size: 9px; color: rgba(255,255,255,0.6); }
+
+  .s1-banner {
+    margin: 6px 10px 14px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    padding: 9px 10px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .s1-banner-icon {
+    width: 30px; height: 30px;
+    background: #dcfce7;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+  .s1-banner-text .t1 { font-size: 11px; font-weight: 600; color: #0f5c2a; font-family: var(--font-display); letter-spacing: 0.5px; }
+  .s1-banner-text .t2 { font-size: 9px; color: #3b6d11; }
+
+  .s1-footer { text-align: center; padding: 0 12px 14px; font-size: 9px; color: rgba(255,255,255,0.35); }
+
+  /* ── Screen 2 ── */
+  .s2-scene {
+    position: relative;
+    height: 440px;
+    overflow: hidden;
+  }
+  .s2-scene svg { position: absolute; top: 0; left: 0; }
+
+  /* ── Screen 3 ── */
+  .s3-scene {
+    position: relative;
+    overflow: hidden;
+  }
+  .s3-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .s3-inner {
+    position: relative;
+    z-index: 2;
+    padding: 0 0 20px;
+  }
+  .s3-trophy {
+    text-align: center;
+    padding: 10px 0 0;
+    font-size: 36px;
+    animation: bounceIn 0.6s cubic-bezier(.36,.07,.19,.97) 0.6s both;
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  .s3-hai-vinto {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 3px;
+    line-height: 1;
+    padding: 4px 0 2px;
+    text-shadow: 0 0 30px rgba(251,191,36,0.5);
+    animation: glowText 2s ease-in-out infinite;
+  }
+  @keyframes glowText {
+    0%,100% { text-shadow: 0 0 20px rgba(251,191,36,0.4); }
+    50% { text-shadow: 0 0 40px rgba(251,191,36,0.8), 0 0 60px rgba(251,191,36,0.3); }
+  }
+  .s3-day { text-align: center; font-size: 10px; color: rgba(255,255,255,0.6); padding-bottom: 8px; letter-spacing: 1px; }
+  .s3-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(251,191,36,0.5), transparent);
+    margin: 0 20px 12px;
+  }
+
+  .s3-phone-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 0 0 10px;
+    position: relative;
+  }
+  .s3-phone-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 160px; height: 200px;
+    background: radial-gradient(ellipse, rgba(254,240,138,0.35) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+  @keyframes glowPulse {
+    0%,100% { opacity: 0.7; transform: translate(-50%,-50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.12); }
+  }
+  .s3-mini-phone {
+    width: 88px;
+    height: 160px;
+    background: #111;
+    border-radius: 14px;
+    border: 2px solid #333;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    z-index: 2;
+    animation: floatPhone 3s ease-in-out infinite;
+  }
+  @keyframes floatPhone {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .s3-mini-screen {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #5dcaa5, #0f5c2a);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .s3-mini-screen .star { font-size: 12px; }
+  .s3-mini-screen .wt { font-size: 7px; font-weight: 600; color: var(--gold-pale); font-family: var(--font-display); letter-spacing: 1px; }
+  .s3-notch {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 28px; height: 7px;
+    background: #111;
+    border-radius: 0 0 6px 6px;
+  }
+  .s3-homeind {
+    position: absolute;
+    bottom: 6px; left: 50%;
+    transform: translateX(-50%);
+    width: 30px; height: 3px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 2px;
+  }
+
+  .s3-prize-box {
+    margin: 4px 12px 8px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(251,191,36,0.25);
+    border-radius: 12px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .s3-prize-box .lab { font-size: 10px; color: rgba(255,255,255,0.55); margin-bottom: 2px; }
+  .s3-prize-box .val { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--gold-light); }
+
+  .s3-subtitle { text-align: center; font-size: 13px; color: rgba(255,255,255,0.9); padding: 4px 16px 10px; }
+
+  .s3-cta {
+    margin: 0 14px;
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    border-radius: 999px;
+    padding: 13px 0;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    border: 1px solid #4ade80;
+    cursor: pointer;
+    animation: ctaPulse 2s ease-in-out infinite;
+  }
+  @keyframes ctaPulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    50% { box-shadow: 0 0 0 6px rgba(34,197,94,0.15); }
+  }
+  .s3-note { text-align: center; font-size: 9px; color: rgba(255,255,255,0.3); padding: 8px 0 4px; }
+
+  /* ── Sparkles ── */
+  .sparkle {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: var(--gold-pale);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: twinkle 1.5s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 0 24px 48px;
+    color: rgba(255,255,255,0.25);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  .footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+
+  /* Background stars */
+  .bg-stars {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .bg-star {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(251,191,36,0.5);
+    animation: starFade 3s ease-in-out infinite;
+  }
+  @keyframes starFade {
+    0%,100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+  .screens-wrapper, .header, .footer { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+
+<!-- Background stars -->
+<div class="bg-stars" id="bgStars"></div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-badge">VERYPLUS</div>
+  <h1>VERY WIN <span>DAYS</span></h1>
+  <p>Il flusso completo dell'iniziativa · 3 schermate</p>
+  <div class="header-line"></div>
+</div>
+
+<!-- Screens -->
+<div class="screens-wrapper">
+
+  <!-- ── SCREEN 1 ── -->
+  <div class="screen-block">
+    <div class="screen-label">01 / Panoramica</div>
+    <div class="screen-title">Visione dell'iniziativa</div>
+    <div class="phone">
+      <div class="phone-statusbar"><span>9:41</span><span>●●● 5G ■</span></div>
+      <div class="phone-topbadge"><span>VERYPLUS</span></div>
+      <div class="s1-headline">
+        <div class="sub">Abbonati a <strong>VeryPlus</strong></div>
+        <div class="main">E PROVA A<br>VINCERE!</div>
+        <div class="prize">1 telefono in palio al giorno</div>
+      </div>
+      <div class="s1-grid-wrap">
+        <div class="s1-grid">
+          <div class="tile past">1</div>
+          <div class="tile won">2</div>
+          <div class="tile past">3</div>
+          <div class="tile past">4</div>
+          <div class="tile past">5</div>
+          <div class="tile past">6</div>
+          <div class="tile past">7</div>
+          <div class="tile past">8</div>
+          <div class="tile won">9</div>
+          <div class="tile past">10</div>
+          <div class="tile past">11</div>
+          <div class="tile past">12</div>
+          <div class="tile past">13</div>
+          <div class="tile past">14</div>
+          <div class="tile past">15</div>
+          <div class="tile today">16</div>
+          <div class="tile locked">17</div>
+          <div class="tile locked">18</div>
+          <div class="tile locked">19</div>
+          <div class="tile locked">20</div>
+          <div class="tile locked">21</div>
+          <div class="tile locked">22</div>
+          <div class="tile locked">23</div>
+          <div class="tile locked">24</div>
+          <div class="tile locked">25</div>
+          <div class="tile locked">26</div>
+          <div class="tile locked">27</div>
+          <div class="tile locked">28</div>
+          <div class="tile locked">29</div>
+          <div class="tile locked">30</div>
+        </div>
+        <div class="s1-badge">
+          <span class="n">30</span>
+          <span class="t">TEL.<br>IN PALIO</span>
+        </div>
+      </div>
+      <div class="s1-legend">
+        <div class="leg"><div class="leg-dot" style="background:#e85d04;"></div><span>Oggi</span></div>
+        <div class="leg"><div class="leg-dot" style="background:#1d9e75;"></div><span>Vinto</span></div>
+        <div class="leg"><div class="leg-dot" style="background:rgba(255,255,255,0.1);"></div><span>Bloccato</span></div>
+      </div>
+      <div class="s1-banner">
+        <div class="s1-banner-icon">🎁</div>
+        <div class="s1-banner-text">
+          <div class="t1">PREMIO GARANTITO</div>
+          <div class="t2">Scopri un premio sicuro ogni settimana</div>
+        </div>
+      </div>
+      <div class="s1-footer">SOLO PER GLI ABBONATI VERYPLUS</div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 2 ── -->
+  <div class="screen-block">
+    <div class="screen-label">02 / Interazione</div>
+    <div class="screen-title">Apertura casellina</div>
+    <div class="phone">
+      <div class="phone-statusbar"><span>9:41</span><span>●●● 5G ■</span></div>
+      <div class="phone-topbadge"><span>VERYPLUS</span></div>
+      <div class="s2-scene">
+        <svg id="s2svg" viewBox="0 0 270 440" width="270" height="440" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="s2bg" cx="50%" cy="45%" r="60%">
+              <stop offset="0%" stop-color="#1a7a3c"/>
+              <stop offset="60%" stop-color="#0f5c2a"/>
+              <stop offset="100%" stop-color="#062010"/>
+            </radialGradient>
+            <radialGradient id="s2burst" cx="50%" cy="47%" r="38%">
+              <stop offset="0%" stop-color="#fef08a" stop-opacity="0.55"/>
+              <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#0a4020" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="tileF" cx="50%" cy="35%" r="70%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#fef3c7"/>
+            </radialGradient>
+            <radialGradient id="tileG" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#fef9c3"/>
+              <stop offset="45%" stop-color="#fbbf24"/>
+              <stop offset="100%" stop-color="#d97706"/>
+            </radialGradient>
+            <filter id="s2glow">
+              <feGaussianBlur stdDeviation="5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="s2blur">
+              <feGaussianBlur stdDeviation="2"/>
+            </filter>
+          </defs>
+          <rect width="270" height="440" fill="url(#s2bg)"/>
+          <rect width="270" height="440" fill="url(#s2burst)"/>
+          <!-- rays -->
+          <g opacity="0.45">
+            <line x1="135" y1="200" x2="135" y2="10" stroke="#fef08a" stroke-width="16" stroke-linecap="round" opacity="0.1"/>
+            <line x1="135" y1="200" x2="255" y2="90" stroke="#fef08a" stroke-width="10" stroke-linecap="round" opacity="0.08"/>
+            <line x1="135" y1="200" x2="15" y2="90" stroke="#fef08a" stroke-width="10" stroke-linecap="round" opacity="0.08"/>
+            <line x1="135" y1="200" x2="270" y2="200" stroke="#fef08a" stroke-width="8" stroke-linecap="round" opacity="0.06"/>
+            <line x1="135" y1="200" x2="0" y2="200" stroke="#fef08a" stroke-width="8" stroke-linecap="round" opacity="0.06"/>
+            <line x1="135" y1="200" x2="255" y2="310" stroke="#fef08a" stroke-width="8" stroke-linecap="round" opacity="0.06"/>
+            <line x1="135" y1="200" x2="15" y2="310" stroke="#fef08a" stroke-width="8" stroke-linecap="round" opacity="0.06"/>
+            <line x1="135" y1="200" x2="135" y2="400" stroke="#fef08a" stroke-width="12" stroke-linecap="round" opacity="0.07"/>
+          </g>
+          <!-- bg grid blurred -->
+          <g opacity="0.22" filter="url(#s2blur)">
+            <rect x="8" y="50" width="36" height="36" rx="5" fill="rgba(255,255,255,0.1)"/><text x="26" y="73" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.4)" font-family="Barlow Condensed">1</text>
+            <rect x="50" y="50" width="36" height="36" rx="5" fill="rgba(255,255,255,0.1)"/><text x="68" y="73" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.4)" font-family="Barlow Condensed">2</text>
+            <rect x="92" y="50" width="36" height="36" rx="5" fill="rgba(255,255,255,0.1)"/><text x="110" y="73" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.4)" font-family="Barlow Condensed">3</text>
+            <rect x="176" y="50" width="36" height="36" rx="5" fill="rgba(255,255,255,0.1)"/><text x="194" y="73" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.4)" font-family="Barlow Condensed">5</text>
+            <rect x="218" y="50" width="36" height="36" rx="5" fill="rgba(255,255,255,0.1)"/><text x="236" y="73" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.4)" font-family="Barlow Condensed">6</text>
+            <rect x="8" y="92" width="36" height="36" rx="5" fill="rgba(255,255,255,0.1)"/><text x="26" y="115" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.4)" font-family="Barlow Condensed">7</text>
+            <rect x="50" y="92" width="36" height="36" rx="5" fill="rgba(255,255,255,0.1)"/><text x="68" y="115" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.4)" font-family="Barlow Condensed">8</text>
+            <rect x="218" y="92" width="36" height="36" rx="5" fill="rgba(255,255,255,0.1)"/><text x="236" y="115" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.4)" font-family="Barlow Condensed">12</text>
+            <rect x="8" y="290" width="36" height="36" rx="5" fill="rgba(255,255,255,0.05)"/><text x="26" y="313" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.2)" font-family="Barlow Condensed">19</text>
+            <rect x="218" y="290" width="36" height="36" rx="5" fill="rgba(255,255,255,0.05)"/><text x="236" y="313" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.2)" font-family="Barlow Condensed">24</text>
+          </g>
+          <!-- glow halo -->
+          <circle cx="135" cy="200" r="72" fill="none" stroke="#fbbf24" stroke-width="1.2" opacity="0.28"/>
+          <circle cx="135" cy="200" r="88" fill="none" stroke="#fbbf24" stroke-width="0.6" opacity="0.12"/>
+          <!-- tile shadow -->
+          <rect x="74" y="134" width="122" height="122" rx="18" fill="#fbbf24" opacity="0.3" filter="url(#s2blur)"/>
+          <!-- back face (flip illusion) -->
+          <rect x="80" y="140" width="50" height="112" rx="10" fill="#1a7a3c" stroke="rgba(255,255,255,0.15)" stroke-width="1" opacity="0.65"/>
+          <text x="105" y="202" text-anchor="middle" font-size="20" fill="rgba(255,255,255,0.15)" font-family="Barlow Condensed" font-weight="700">16</text>
+          <!-- front face -->
+          <rect x="130" y="140" width="72" height="112" rx="10" fill="url(#tileG)" stroke="#fff" stroke-width="1.2"/>
+          <rect x="133" y="143" width="66" height="52" rx="8" fill="url(#tileF)" opacity="0.9"/>
+          <!-- phone inside tile -->
+          <rect x="143" y="152" width="46" height="32" rx="4" fill="rgba(15,92,42,0.15)"/>
+          <rect x="151" y="156" width="30" height="22" rx="3" fill="#0f5c2a" opacity="0.85"/>
+          <rect x="153" y="158" width="26" height="16" rx="2" fill="#5dcaa5" opacity="0.7"/>
+          <circle cx="166" cy="178" r="1.5" fill="#0f5c2a" opacity="0.5"/>
+          <text x="166" y="216" text-anchor="middle" font-size="9" fill="#92400e" font-weight="600" font-family="Barlow Condensed" letter-spacing="0.5">GIOCA ORA</text>
+          <text x="166" y="228" text-anchor="middle" font-size="7.5" fill="#b45309" font-family="Barlow" opacity="0.85">TELEFONO IN PALIO</text>
+          <!-- sparkles -->
+          <g fill="#fef08a" opacity="0.9" filter="url(#s2glow)">
+            <polygon points="78,140 81,147 84,140 81,133"/>
+            <polygon points="206,138 209,145 212,138 209,131"/>
+            <polygon points="68,200 71,207 74,200 71,193"/>
+            <polygon points="210,208 213,215 216,208 213,201"/>
+            <polygon points="90,270 93,277 96,270 93,263"/>
+            <polygon points="196,275 199,282 202,275 199,268"/>
+          </g>
+          <g fill="#fbbf24" opacity="0.8">
+            <circle cx="62" cy="162" r="2.5"/><circle cx="215" cy="158" r="2"/>
+            <circle cx="56" cy="228" r="1.8"/><circle cx="220" cy="235" r="1.8"/>
+            <circle cx="72" cy="288" r="2"/><circle cx="204" cy="292" r="1.8"/>
+          </g>
+          <!-- day label -->
+          <text x="135" y="334" text-anchor="middle" font-size="13" fill="rgba(255,255,255,0.9)" font-family="Barlow Condensed" font-weight="600" letter-spacing="1">GIORNO 16</text>
+          <text x="135" y="350" text-anchor="middle" font-size="9.5" fill="rgba(255,255,255,0.5)" font-family="Barlow">Tocca per scoprire il tuo premio</text>
+          <!-- CTA -->
+          <rect x="58" y="366" width="154" height="38" rx="19" fill="#f59e0b"/>
+          <text x="135" y="389" text-anchor="middle" font-size="13" fill="#fff" font-weight="700" font-family="Barlow Condensed" letter-spacing="1">APRI LA CASELLA</text>
+          <text x="135" y="428" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.35)" font-family="Barlow">Solo per abbonati VeryPlus</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 3 ── -->
+  <div class="screen-block">
+    <div class="screen-label">03 / Risultato</div>
+    <div class="screen-title">Schermata di vincita</div>
+    <div class="phone">
+      <div class="phone-statusbar"><span>9:41</span><span>●●● 5G ■</span></div>
+      <div class="phone-topbadge"><span>VERYPLUS</span></div>
+      <div class="s3-scene">
+        <canvas class="s3-canvas" id="confettiCanvas" width="270" height="540"></canvas>
+        <!-- bg gradient via svg -->
+        <svg style="position:absolute;top:0;left:0;pointer-events:none;" viewBox="0 0 270 540" width="270" height="540">
+          <defs>
+            <radialGradient id="s3bg" cx="50%" cy="38%" r="65%">
+              <stop offset="0%" stop-color="#1a9a4a"/>
+              <stop offset="55%" stop-color="#0f5c2a"/>
+              <stop offset="100%" stop-color="#062010"/>
+            </radialGradient>
+            <radialGradient id="s3burst" cx="50%" cy="35%" r="42%">
+              <stop offset="0%" stop-color="#fef08a" stop-opacity="0.45"/>
+              <stop offset="55%" stop-color="#f59e0b" stop-opacity="0.12"/>
+              <stop offset="100%" stop-color="#0a4020" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="270" height="540" fill="url(#s3bg)"/>
+          <rect width="270" height="540" fill="url(#s3burst)"/>
+          <!-- fireworks -->
+          <g opacity="0.75">
+            <g transform="translate(45,72)">
+              <line x1="0" y1="0" x2="0" y2="-20" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="17" y2="-11" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="20" y2="5" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="9" y2="18" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="-13" y2="15" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="-20" y2="0" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="-16" y2="-13" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="0" cy="-22" r="2.5" fill="#fef08a"/>
+              <circle cx="18" cy="-12" r="2" fill="#fbbf24"/>
+              <circle cx="21" cy="6" r="2" fill="#fef08a"/>
+            </g>
+            <g transform="translate(228,58)">
+              <line x1="0" y1="0" x2="0" y2="-18" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="16" y2="-9" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="18" y2="5" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="7" y2="17" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="-12" y2="14" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="-18" y2="0" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="-15" y2="-11" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="0" cy="-20" r="2.5" fill="#fbbf24"/>
+              <circle cx="17" cy="-10" r="2" fill="#fef08a"/>
+            </g>
+            <g transform="translate(30,360)" opacity="0.6">
+              <line x1="0" y1="0" x2="0" y2="-14" stroke="#fef08a" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="12" y2="-7" stroke="#fbbf24" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="14" y2="4" stroke="#fef08a" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="-12" y2="9" stroke="#fbbf24" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="0" cy="-16" r="2" fill="#fef08a"/>
+              <circle cx="13" cy="-8" r="1.5" fill="#fbbf24"/>
+            </g>
+            <g transform="translate(244,368)" opacity="0.6">
+              <line x1="0" y1="0" x2="0" y2="-14" stroke="#fbbf24" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="12" y2="-7" stroke="#fef08a" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="14" y2="4" stroke="#fbbf24" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="-12" y2="9" stroke="#fef08a" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="0" cy="-16" r="2" fill="#fbbf24"/>
+            </g>
+          </g>
+          <!-- gold stars -->
+          <g fill="#fef08a">
+            <polygon points="22,128 24,135 31,135 26,139 28,146 22,142 16,146 18,139 13,135 20,135" opacity="0.8"/>
+            <polygon points="250,118 252,124 258,124 253,128 255,134 250,130 245,134 247,128 242,124 248,124" opacity="0.7"/>
+            <polygon points="12,275 14,280 19,280 15,284 17,289 12,285 7,289 9,284 5,280 10,280" opacity="0.5"/>
+            <polygon points="260,262 262,267 267,267 263,271 265,276 260,272 255,276 257,271 253,267 258,267" opacity="0.5"/>
+          </g>
+          <g fill="#fbbf24" opacity="0.65">
+            <circle cx="14" cy="185" r="2.2"/><circle cx="258" cy="192" r="1.8"/>
+            <circle cx="25" cy="430" r="1.8"/><circle cx="247" cy="438" r="1.5"/>
+            <circle cx="135" cy="22" r="1.8"/>
+          </g>
+        </svg>
+        <div class="s3-inner">
+          <div class="s3-trophy">🏆</div>
+          <div class="s3-hai-vinto">HAI VINTO!</div>
+          <div class="s3-day">VERY WIN DAYS · GIORNO 16</div>
+          <div class="s3-divider"></div>
+          <div class="s3-phone-wrap">
+            <div class="s3-phone-glow"></div>
+            <div class="s3-mini-phone">
+              <div class="s3-notch"></div>
+              <div class="s3-mini-screen">
+                <div class="star">⭐</div>
+                <div class="wt">PREMIO</div>
+                <div class="wt">VINTO</div>
+              </div>
+              <div class="s3-homeind"></div>
+            </div>
+          </div>
+          <div class="s3-prize-box">
+            <div class="lab">Il tuo premio</div>
+            <div class="val">Smartphone top di gamma</div>
+          </div>
+          <div class="s3-subtitle">Uno smartphone è tuo!</div>
+          <div class="s3-cta">SCOPRI IL TUO PREMIO</div>
+          <div class="s3-note">Valido fino al 30/06/2026 · Solo abbonati VeryPlus</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  Very Win Days · VeryPlus · 2 edizioni / anno (Estate + Natale)<br>
+  <a href="#">Regolamento completo su verymobile.it</a>
+</div>
+
+<script>
+// Background stars
+(function(){
+  const c = document.getElementById('bgStars');
+  for(let i=0;i<40;i++){
+    const s = document.createElement('div');
+    s.className='bg-star';
+    const size = Math.random()*2+1;
+    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*3}s;`;
+    c.appendChild(s);
+  }
+})();
+
+// Confetti
+(function(){
+  const canvas = document.getElementById('confettiCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W=270, H=540;
+  const cols=['#fef08a','#fbbf24','#f59e0b','#ffffff','#4ade80','#86efac','#fde68a','#a3e635'];
+  const pieces = Array.from({length:65},()=>({
+    x: Math.random()*W,
+    y: Math.random()*H*0.5-30,
+    r: Math.random()*3.5+1.5,
+    d: Math.random()*60+20,
+    color: cols[Math.floor(Math.random()*cols.length)],
+    tiltAngle: Math.random()*Math.PI,
+    tiltSpeed: Math.random()*0.07+0.02,
+    speed: Math.random()*1.2+0.5,
+    shape: Math.random()>0.5?'rect':'circle'
+  }));
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pieces.forEach(p=>{
+      ctx.save();
+      ctx.globalAlpha=0.85;
+      ctx.fillStyle=p.color;
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.tiltAngle);
+      if(p.shape==='rect'){ ctx.fillRect(-p.r,-p.r*0.4,p.r*2,p.r*0.8); }
+      else{ ctx.beginPath(); ctx.arc(0,0,p.r*0.65,0,Math.PI*2); ctx.fill(); }
+      ctx.restore();
+      p.y+=p.speed;
+      p.tiltAngle+=p.tiltSpeed;
+      p.x+=Math.sin(frame*0.018+p.d)*0.5;
+      if(p.y>H+10){ p.y=-10; p.x=Math.random()*W; }
+    });
+    frame++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
